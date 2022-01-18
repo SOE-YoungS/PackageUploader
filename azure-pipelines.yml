@@ -6,7 +6,7 @@ pool:
 
 variables:
   buildConfiguration: 'Debug'
-  Project: '*\*.sln'
+  Project: '/src/*.sln'
 
 steps:
 - task: UseDotNet@2
