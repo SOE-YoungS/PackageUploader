@@ -6,6 +6,7 @@ pool:
 
 variables:
   buildConfiguration: 'Debug'
+  Project: '*\*.sln'
 
 steps:
 - task: UseDotNet@2
@@ -13,10 +14,16 @@ steps:
     packageType: 'sdk'
     version: '6.x'
 - task: DotNetCoreCLI@2
+  displayName: 'dotnet restore'
+  inputs:
+    command: restore
+    projects: $(Project)
+    feedRestore: 1927cd55-cb60-403d-a73b-70a97accdcb2
+- task: DotNetCoreCLI@2
   displayName: 'dotnet build $(buildConfiguration)'
   inputs:
     command: 'build'
-    projects: 'src\*.sln'
+    projects: $(Project)
     arguments: '--configuration $(buildConfiguration)'
   
 
