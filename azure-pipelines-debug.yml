@@ -22,11 +22,19 @@ steps:
     feedRestore: 1927cd55-cb60-403d-a73b-70a97accdcb2
 - task: DotNetCoreCLI@2
   displayName: 'dotnet build $(buildConfiguration)'
+  enabled: false
   inputs:
     command: 'build'
     projects: $(Project)
     arguments: '--configuration $(buildConfiguration)'
-
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet publish'
+  inputs:
+    command: publish
+    publishWebProjects: false
+    projects: $(Project)
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    modifyOutputPath: false
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: $(ArtifactName)'
   inputs:
