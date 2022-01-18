@@ -5,7 +5,7 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  buildConfiguration: 'Debug'
+  buildConfiguration: 'Release'
   Project: 'src/PackageUploader.sln'
 
 steps:
