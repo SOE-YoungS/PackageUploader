@@ -8,11 +8,15 @@ variables:
   buildConfiguration: 'Debug'
 
 steps:
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '6.x'
 - task: DotNetCoreCLI@2
   displayName: 'dotnet build $(buildConfiguration)'
   inputs:
     command: 'build'
-    projects: '/src/*.sln'
+    projects: 'src\*.sln'
     arguments: '--configuration $(buildConfiguration)'
   
 
