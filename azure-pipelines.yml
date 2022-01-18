@@ -6,7 +6,7 @@ pool:
 
 variables:
   buildConfiguration: 'Debug'
-  Project: '/src/*.sln'
+  Project: 'src/PackageUploader.sln'
 
 steps:
 - task: UseDotNet@2
