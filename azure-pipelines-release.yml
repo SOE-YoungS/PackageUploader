@@ -2,11 +2,12 @@ trigger:
 - main
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: windows-latest
 
 variables:
-  buildConfiguration: 'Release'
+  buildConfiguration: 'Debug'
   Project: 'src/PackageUploader.sln'
+  ArtifactName: 'PackageUploader - Main - Release'
 
 steps:
 - task: UseDotNet@2
@@ -21,7 +22,23 @@ steps:
     feedRestore: 1927cd55-cb60-403d-a73b-70a97accdcb2
 - task: DotNetCoreCLI@2
   displayName: 'dotnet build $(buildConfiguration)'
+  enabled: false
   inputs:
     command: 'build'
     projects: $(Project)
     arguments: '--configuration $(buildConfiguration)'
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet publish'
+  inputs:
+    command: publish
+    publishWebProjects: false
+    workingDirectory: 'src/'
+    projects: $(Project)
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    modifyOutputPath: false
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: $(ArtifactName)'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
+    ArtifactName: $(ArtifactName)
+  condition: succeededOrFailed()
